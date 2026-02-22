@@ -53,9 +53,8 @@ export default {
     from: "no_reply@loonburo.be",
     transport:{
       host: "loonburo-be.mail.protection.outlook.com",
-      port: 587,
-      secure: false,
-      family: 4
+      port: 25,
+      secure: false
     }
   }
 };

@@ -52,10 +52,10 @@ export default {
       const password = loonbrieven.getPassword(email);
       if(password!="") return Response.AlreadyRegisteredUser(res)
       const passwordCheck = await loonbrieven.register(email,password);
-      if(!passwordCheck) throw new Error("Registration failed")
+      if(!passwordCheck) return Response.InternalServerError(res, 'Mail versturen mislukt')
       return Response.Ok(res);
     } catch (error) {
-      next(Response.InternalServerError(res, error.message));
+      next(error);
     }
   },
   lostPassword: async (req, res, next) => {
@@ -68,10 +68,10 @@ export default {
       const password = loonbrieven.getPassword(email);
       if(password=="") return Response.NotRegisteredUser(res)
       const passwordCheck = await loonbrieven.register(email,password);
-      if(!passwordCheck) throw new Error("Registration failed")
+      if(!passwordCheck) return Response.InternalServerError(res, 'Mail versturen mislukt')
       return Response.Ok(res);
     } catch (error) {
-      next(Response.InternalServerError(res, error.message));
+      next(error);
     }
   },
   changePassword: async (req, res, next) => {
@@ -83,11 +83,9 @@ export default {
       if(!folder) return Response.NotFoundUser(res);
       const passwordChange = loonbrieven.changePassword(email,password,check);
       if(!passwordChange) return Response.BadCode(res);
-      console.log(passwordChange)
       return Response.Ok(res);
     } catch (error) {
-
-      next(Response.InternalServerError(res, error.message));
+      next(error);
     }
   },
 

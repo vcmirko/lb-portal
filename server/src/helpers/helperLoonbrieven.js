@@ -55,10 +55,7 @@ const funcs = {
         fs.writeFileSync(passwordPath,Yaml.stringify(passwordObj))
       }
       let transporter = nodemailer.createTransport(config.mail.transport)
-      if(process.env.NODE_ENV === 'development') {
-        console.log(`[DEV] Skipping mail send. Code for ${email}: ${check}`)
-      } else {
-        try {
+      try {
           await transporter.sendMail({
             from: `"Loonburo.be" <${config.mail.from}>`,
             to: email,
@@ -68,10 +65,9 @@ const funcs = {
           });
           console.log("Code mail sent to " + email)
         } catch(mailErr) {
-          console.error("Mail send failed:", mailErr.message)
+          console.error("Mail send failed:", mailErr.message, "| code:", mailErr.code, "| command:", mailErr.command, "| response:", mailErr.response)
           return false
         }
-      }
       return check
     }else{
       return false
