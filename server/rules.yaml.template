@@ -1,0 +1,31 @@
+rules:
+  - name: loonbrieven
+    subfolder: loonbrieven
+    cc: <CC_EMAIL_LOONBRIEVEN>
+    subject_words:
+      - FEUILLE DE PAIE
+      - LOONBRIEF
+    extract_year: filename
+    extract_year_regex: "\\b(19|20)\\d{2}\\b"
+  - name: individuele rekening
+    subfolder: ind_rek
+    cc: <CC_EMAIL_IND_REK>
+    subject_words:
+      - INDIVIDUELE REKENING
+    extract_year: subject
+    extract_year_regex: "\\d{4}"
+  - name: belastingsfiches
+    subfolder: belastingsfiches
+    cc: <CC_EMAIL_FICHES>
+    subject_words:
+      - BELASTINGSFICHE
+      - FICHE FISCALE
+    extract_year: subject
+    extract_year_regex: "\\d{4}"
+visualization:
+  - subfolder: loonbrieven
+    title: Loonbrieven
+  - subfolder: ind_rek
+    title: Individuele Rekening
+  - subfolder: belastingsfiches
+    title: Belastingsfiches

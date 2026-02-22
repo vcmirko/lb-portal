@@ -1,0 +1,11 @@
+node_modules
+build
+.env
+.env.development
+publish.sh
+backup.sh
+restore.sh
+server/rules.yaml
+server/loonbrieven
+oldlogic.tmp
+.vscode

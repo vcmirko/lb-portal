@@ -1,0 +1,36 @@
+#!/bin/bash
+# filepath: c:\jumpstart\vue3\loonburo\publish.sh
+
+set -e
+
+# 1. Build client
+echo "Building client app..."
+cd client
+npm install
+npm run build
+cd ..
+
+# 2. Copy client build to server/public
+echo "Copying client build to server/src/public..."
+rm -rf server/src/public
+mkdir -p server/src/public
+cp -r client/dist/* server/src/public/
+
+# 3. (Optional) Build server app (uncomment if needed)
+# cd server
+# npm install
+# npm run build
+# cd ..
+
+# 4. Rsync only code and static assets, EXCLUDING loonbrieven and other persistent data
+echo "Uploading to DigitalOcean (excluding loonbrieven)..."
+sshpass -p '<YOUR_PASSWORD>' rsync -avz --delete \
+  --exclude 'loonbrieven' \
+  --exclude 'node_modules' \
+  --exclude 'greenlock.d' \
+  --exclude 'template.docx' \
+  ./server/ root@<YOUR_SERVER_IP>:/srv/apps/portal/server/
+
+# 5. SSH and run remote publish script
+echo "Running remote publish script..."
+sshpass -p '<YOUR_PASSWORD>' ssh root@<YOUR_SERVER_IP> "cd /srv/apps/portal/server && bash publish.sh"

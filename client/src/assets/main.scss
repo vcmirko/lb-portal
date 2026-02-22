@@ -1,0 +1,22 @@
+// @font-face {
+//   font-family: GravityBold;
+//   src: url("./fonts/Gravity-Bold.otf");
+// }
+// @font-face {
+//   font-family: GravityBook;
+//   src: url("./fonts/Gravity-Book.otf");
+// }
+// @font-face {
+//   font-family: GravityLight;
+//   src: url("./fonts/Gravity-Light.otf");
+// }
+
+@import './custom.scss';
+@import 'bulma/bulma';
+
+// Bulma 1.0 gebruikt CSS custom properties - override primary kleur
+:root {
+  --bulma-primary-h: 43deg;
+  --bulma-primary-s: 94%;
+  --bulma-primary-l: 55%;
+}
