@@ -55,7 +55,12 @@ const funcs = {
         fs.writeFileSync(passwordPath,Yaml.stringify(passwordObj))
       }
       let transporter = nodemailer.createTransport(config.mail.transport)
-      try {
+      if(process.env.NODE_ENV === 'development') {
+        // NOTE: Mail werkt NIET lokaal in dev - ISP blokkeert port 25 en port 587 vereist auth.
+        // De code wordt hier gelogd zodat je de flow kan testen zonder echte mail.
+        console.log(`[DEV] Mail overgeslagen. Gebruik deze code voor ${email}: ${check}`)
+      } else {
+        try {
           await transporter.sendMail({
             from: `"Loonburo.be" <${config.mail.from}>`,
             to: email,
@@ -68,6 +73,7 @@ const funcs = {
           console.error("Mail send failed:", mailErr.message, "| code:", mailErr.code, "| command:", mailErr.command, "| response:", mailErr.response)
           return false
         }
+      }
       return check
     }else{
       return false

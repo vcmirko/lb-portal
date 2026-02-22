@@ -11,3 +11,10 @@ $fullhd-enabled: false;
 // $family-primary: "GravityBold";
 // $family-secondary: "GravityBook";
 // $family-sans-serif: "GravityLight";
+
+@media (prefers-color-scheme: dark) {
+  .input.is-danger {
+    background-color: inherit;
+    border-color: #ea4141;
+  }
+}

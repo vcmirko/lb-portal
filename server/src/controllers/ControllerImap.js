@@ -131,11 +131,10 @@ export default {
               log(`${prefix} to: ${to}`);
               log(`${prefix} cc: ${ccAddresses.join(', ')}`);
 
-              // Match against rules (subject + cc)
+              // Match against rules (subject only)
               const matchedRule = rules.find(rule =>
                 attachments.length > 0 &&
-                rule.subject_words.some(word => subject && subject.toUpperCase().includes(word.toUpperCase())) &&
-                (!rule.cc || ccAddresses.includes(rule.cc.toLowerCase()))
+                rule.subject_words.some(word => subject && subject.toUpperCase().includes(word.toUpperCase()))
               );
 
               if (matchedRule) {
