@@ -1,7 +1,7 @@
 <template>
   <div class="modal is-active">
     <div class="modal-background"></div>
-    <div class="modal-card" v-on:keyup.enter="register">
+    <div class="modal-card" v-on:keyup.enter="submit">
       <header class="modal-card-head has-background-primary">
         <p class="modal-card-title has-text-dark">{{ myTitle }}</p>
       </header>
@@ -57,6 +57,10 @@ export default {
     }
   },
   methods: {
+    submit(){
+      if(this.$route.query.type === 'lostPassword') this.lostPassword()
+      else this.register()
+    },
     register(){
       if(!this.v$.login.$invalid){
         this.$emit("register",this.login)

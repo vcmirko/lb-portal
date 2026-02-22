@@ -55,21 +55,20 @@ const funcs = {
         fs.writeFileSync(passwordPath,Yaml.stringify(passwordObj))
       }
       let transporter = nodemailer.createTransport(config.mail.transport)
-      try {
-        let info = await transporter.sendMail({
-          from: `"Loonburo.be" <${config.mail.from}>`, // sender address
-          to: email,
-          // to: "mirko@vancolen.com", // list of receivers
-          subject: "Uw account bij loonburo.be", // Subject line
-          text: "Hieronder vindt u uw code voor het resetten van uw wachtwoord.\r\nUw Code : " + check + "\r\n\r\nMvg,\r\nLoonburo", // plain text body
-          html: "Hieronder vindt u uw code voor het resetten van uw wachtwoord.<br>Uw Code : <b>" + check + "</b><br><br>Mvg,<br>Loonburo", // html body
-        });
-        console.log("Code mail sent to " + email)
-      } catch(mailErr) {
-        console.error("Mail send failed:", mailErr.message)
-        if(process.env.NODE_ENV === 'development') {
-          console.log(`[DEV] Code for ${email}: ${check}`)
-        } else {
+      if(process.env.NODE_ENV === 'development') {
+        console.log(`[DEV] Skipping mail send. Code for ${email}: ${check}`)
+      } else {
+        try {
+          await transporter.sendMail({
+            from: `"Loonburo.be" <${config.mail.from}>`,
+            to: email,
+            subject: "Uw account bij loonburo.be",
+            text: "Hieronder vindt u uw code voor het resetten van uw wachtwoord.\r\nUw Code : " + check + "\r\n\r\nMvg,\r\nLoonburo",
+            html: "Hieronder vindt u uw code voor het resetten van uw wachtwoord.<br>Uw Code : <b>" + check + "</b><br><br>Mvg,<br>Loonburo",
+          });
+          console.log("Code mail sent to " + email)
+        } catch(mailErr) {
+          console.error("Mail send failed:", mailErr.message)
           return false
         }
       }

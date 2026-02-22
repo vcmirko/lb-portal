@@ -28,7 +28,6 @@ sshpass -p '<YOUR_PASSWORD>' rsync -avz --delete \
   --exclude 'loonbrieven' \
   --exclude 'node_modules' \
   --exclude 'greenlock.d' \
-  --exclude 'template.docx' \
   ./server/ root@<YOUR_SERVER_IP>:/srv/apps/portal/server/
 
 # 5. SSH and run remote publish script
